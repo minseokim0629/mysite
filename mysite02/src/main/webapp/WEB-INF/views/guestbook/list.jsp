@@ -48,8 +48,7 @@
 							</tr>
 							<tr>
 								<td colspan=4>
-								안녕하세요. ^^;<br>
-								하하하하	
+								<%=vo.getContents().replaceAll("\n", "<br>") %>
 								</td>
 							</tr>
 						</table>
