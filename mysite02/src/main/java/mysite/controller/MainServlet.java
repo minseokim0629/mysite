@@ -1,18 +1,18 @@
 package mysite.controller;
 
-import java.io.IOException;
-
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import mysite.controller.action.main.MainAction;
 
-@WebServlet({"/main", ""})
+// @WebServlet({"/main", ""})
 public class MainServlet extends ActionServlet {
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void init() throws ServletException {
+		String config = getServletConfig().getInitParameter("config");
+		System.out.println("MainController.init() called: " + config);
+		super.init();
+	}
 
 	@Override
 	protected Action getAction(String actionName) {
