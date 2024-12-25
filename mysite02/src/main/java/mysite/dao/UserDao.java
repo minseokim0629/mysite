@@ -34,7 +34,7 @@ public class UserDao {
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt1 = conn.prepareStatement("update user set name=?, gender=? where id=?");
-			PreparedStatement pstmt2 = conn.prepareStatement("update user set name=?, password=? and gender=? where id=?");
+			PreparedStatement pstmt2 = conn.prepareStatement("update user set name=?, password=?, gender=? where id=?");
 		) {
 			if("".equals(vo.getPassword())) {
 				pstmt1.setString(1, vo.getName());
@@ -48,7 +48,7 @@ public class UserDao {
 				pstmt2.setString(2, vo.getPassword());
 				pstmt2.setString(3, vo.getGender());
 				pstmt2.setLong(4, vo.getId());
-				
+
 				count = pstmt2.executeUpdate();
 			}
 		} catch (SQLException e) {

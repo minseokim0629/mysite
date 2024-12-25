@@ -22,9 +22,9 @@ public abstract class ActionServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		Optional<String> optionalActionName = Optional.ofNullable(request.getParameter("a"));
 
-		
 		//Action action = getAction(optionalActionName.isEmpty() ? "" : optionalActionName.get());
 		Action action = getAction(optionalActionName.orElse(""));
+		
 		action.execute(request, response);
 	}
 
