@@ -105,14 +105,15 @@ public class BoardDao {
 		return count;
 	}
 	
-	public List<BoardVo> findBoards(Long pageIdx, Long cnt) {
+	public List<BoardVo> findBoards(String kwd, Long pageIdx, Long cnt) {
 		List<BoardVo> result = new ArrayList<>();
 		try (
 			Connection conn = getConnection(); 
-			PreparedStatement pstmt = conn.prepareStatement("select a.id, a.title, a.contents, a.hit, date_format(a.reg_date, '%Y-%m-%d %h:%i:%s'), a.g_no, a.o_no, a.depth, a.user_id, b.name  from board a join user b where a.user_id = b.id order by g_no desc, o_no asc limit ?, ?");
+			PreparedStatement pstmt = conn.prepareStatement("select a.id, a.title, a.contents, a.hit, date_format(a.reg_date, '%Y-%m-%d %h:%i:%s'), a.g_no, a.o_no, a.depth, a.user_id, b.name  from board a join user b on a.user_id = b.id where a.title like ? order by g_no desc, o_no asc limit ?, ?");
 		) {
-			pstmt.setLong(1, (Long)(pageIdx - 1)*cnt);
-			pstmt.setLong(2, cnt);
+			pstmt.setString(1, "%" + kwd + "%");
+			pstmt.setLong(2, (Long)(pageIdx - 1)*cnt);
+			pstmt.setLong(3, cnt);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -205,14 +206,15 @@ public class BoardDao {
 		return boardVo;
 	}
 	
-	public Long getTotalCnt() {
+	public Long getTotalCnt(String kwd) {
 		Long totalCnt = 0L;
 		
 		try (
 			Connection conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("select count(*) from board");
-			ResultSet rs = pstmt.executeQuery();
+			PreparedStatement pstmt = conn.prepareStatement("select count(*) from board where title like ?");
 		) {
+			pstmt.setString(1, "%" + kwd + "%");
+			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				totalCnt = rs.getLong(1);
 			}
@@ -228,7 +230,7 @@ public class BoardDao {
 			Class.forName("org.mariadb.jdbc.Driver");
 
 			// 2. 연결하기
-			String url = "jdbc:mariadb://192.168.0.101:3306/webdb";
+			String url = "jdbc:mariadb://192.168.0.103:3306/webdb";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);

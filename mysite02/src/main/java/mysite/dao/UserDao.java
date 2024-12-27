@@ -120,7 +120,7 @@ public class UserDao {
 			Class.forName("org.mariadb.jdbc.Driver");
 
 			// 2. 연결하기
-			String url = "jdbc:mariadb://192.168.0.101:3306/webdb";
+			String url = "jdbc:mariadb://192.168.0.103:3306/webdb";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
