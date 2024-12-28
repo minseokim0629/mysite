@@ -28,46 +28,46 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:set var="count" value="${fn:length(list) }" />
-					<c:forEach items = "${list }" var = "vo" varStatus = "status">				
+					<c:set var="count" value="${fn:length(result.list) }" />
+					<c:forEach items = "${result.list }" var = "vo" varStatus = "status">				
 						<tr>
 							<td>${count - status.index }</td>
 							<td style="text-align:left; padding-left:${vo.depth * 20}px">
 								<c:if test="${vo.depth > 0}">
 									<img src="${pageContext.request.contextPath }/assets/images/reply.png">
 								</c:if>
-								<a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">${vo.title }</a>
+								<a href="${pageContext.request.contextPath }/board/view/${vo.id}">${vo.title }</a>
 							</td>
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
 							<td>
 								<c:if test="${authUser.id == vo.userId }">
-									<a href="${pageContext.request.contextPath }/board?a=delete&id=${vo.id}" class="del">삭제</a>
+									<a href="${pageContext.request.contextPath }/board/delete/${vo.id}" class="del">삭제</a>
 								</c:if>
 							</td>
 						</tr>
 					</c:forEach>
 				</table>
-				
+
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
 						<c:choose>
-							<c:when test="${beginPage > 1}">
-								<li><a href="${pageContext.request.contextPath }/board?pageIdx=${beginPage - 1}&kwd=${kwd}">◀</a></li>
+							<c:when test="${result.beginPage > 1}">
+								<li><a href="${pageContext.request.contextPath }/board?currentPage=${result.beginPage - 1}&kwd=${result.kwd}">◀</a></li>
 							</c:when>
 							<c:otherwise>
 								<li>◀</li>
 							</c:otherwise>
 						</c:choose>
-						<c:forEach var="i" begin = "${beginPage }" end = "${endPage }">
+						<c:forEach var="i" begin = "${result.beginPage }" end = "${result.endPage }">
 							<c:choose>
-								<c:when test="${i == curPage }">
+								<c:when test="${i == result.currentPage }">
 									<li class="selected">${i}</li>
 								</c:when>
-								<c:when test="${i >= beginPage && i <= totalPages }" >
-									<li><a href="${pageContext.request.contextPath }/board?pageIdx=${i }&kwd=${kwd}">${i }</a></li>
+								<c:when test="${i >= result.beginPage && i <= result.totalPageCnt }" >
+									<li><a href="${pageContext.request.contextPath }/board?currentPage=${i }&kwd=${result.kwd}">${i }</a></li>
 								</c:when>
 								<c:otherwise>
 									<li>${i }</li>
@@ -75,8 +75,8 @@
 							</c:choose>
 						</c:forEach>
 						<c:choose>
-							<c:when test="${endPage < totalPages}">
-								<li><a href="${pageContext.request.contextPath }/board?pageIdx=${endPage + 1}&kwd=${kwd}">▶</a></li>
+							<c:when test="${result.endPage < result.totalPageCnt}">
+								<li><a href="${pageContext.request.contextPath }/board?currentPage=${result.endPage + 1}&kwd=${result.kwd}">▶</a></li>
 							</c:when>
 							<c:otherwise>
 								<li>▶</li>
@@ -88,7 +88,7 @@
 				
 				<div class="bottom">
 					<c:if test="${not empty authUser }">
-						<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+						<a href="${pageContext.request.contextPath }/board/write/origin" id="new-book">글쓰기</a>
 					</c:if>
 				</div>				
 			</div>

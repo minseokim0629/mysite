@@ -28,7 +28,7 @@
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								${fn:replace(vo.getContents(), newline, "<br>") }
+								${fn:replace(vo.getContent(), newline, "<br>") }
 							</div>
 						</td>
 					</tr>
@@ -36,10 +36,10 @@
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath}/board">글목록</a>
 					<c:if test='${authUser.id == vo.userId}'>
-						<a href="${pageContext.request.contextPath}/board?a=modifyform&id=${vo.id}">글수정</a>
+						<a href="${pageContext.request.contextPath}/board/modify/${vo.id}">글수정</a>
 					</c:if>
 					<c:if test='${not empty authUser.id}'>
-						<a href="${pageContext.request.contextPath}/board?a=replyform&id=${vo.id}">답글달기</a>
+						<a href="${pageContext.request.contextPath}/board/write/reply?id=${vo.id}">답글달기</a>
 					</c:if>
 				</div>
 			</div>

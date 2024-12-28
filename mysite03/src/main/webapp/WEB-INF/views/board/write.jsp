@@ -15,9 +15,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath}/board">
-					<input type = "hidden" name = "a" value="${type }">
-					
+				<form class="board-form" method="post" action="${pageContext.request.contextPath}/board/write/${type}">				
 					<c:if test='${type eq "reply"}' >
 						<input type = "hidden" name = "gNo" value="${vo.gNo }">
 						<input type = "hidden" name = "oNo" value="${vo.oNo }">
