@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import mysite.security.Auth;
+import mysite.security.AuthUser;
 import mysite.service.BoardService;
 import mysite.vo.BoardVo;
 import mysite.vo.UserVo;
@@ -43,15 +45,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.GET)
-	public String write(HttpSession session,
+	public String write(@AuthUser UserVo authUser,
 						@PathVariable("type") String type,
 						@RequestParam(value = "id", required = false) Long id, Model model) {
-		UserVo authUser = (session == null) ? null : (UserVo) session.getAttribute("authUser");
-		
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
 		if("reply".equals(type)) {
 			BoardVo boardVo = boardService.getContents(id, authUser.getId());
 		
@@ -61,14 +57,10 @@ public class BoardController {
 		return "board/write";
 	}
 	
+	@Auth
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.POST)
-	public String write(HttpSession session, 
+	public String write(@AuthUser UserVo authUser, 
 						@PathVariable("type") String type, BoardVo boardVo) {
-		UserVo authUser = (session == null) ? null : (UserVo) session.getAttribute("authUser");
-
-		if(authUser == null) {
-			return "redirect:/";
-		}
 		
 		boardVo.setUserId(authUser.getId());
 		boardVo.setType(type);
@@ -80,14 +72,8 @@ public class BoardController {
 	
 	
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
-	public String modify(HttpSession session,
+	public String modify(@AuthUser UserVo authUser,
 						 @PathVariable("id") Long id, Model model) {
-		UserVo authUser = (session == null) ? null : (UserVo) session.getAttribute("authUser");
-		
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
 		BoardVo boardVo = boardService.getContents(id, authUser.getId());
 		
 		model.addAttribute("vo", boardVo);
@@ -96,27 +82,15 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
-	public String modify(HttpSession session, BoardVo boardVo) {
-		UserVo authUser = (session == null) ? null : (UserVo) session.getAttribute("authUser");
-		
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String modify(@AuthUser UserVo authUser, BoardVo boardVo) {
 		boardService.updateContents(boardVo);
 		
 		return "redirect:/board";
 	}
 	
 	@RequestMapping("/delete/{id}")
-	public String delete(HttpSession session, 
+	public String delete(@AuthUser UserVo authUser, 
 						 @PathVariable("id") Long id) {
-		UserVo authUser = (session == null) ? null : (UserVo) session.getAttribute("authUser");
-		
-		if(authUser == null) {
-			return "redirect:/";
-		}
-
 		boardService.deleteContents(id, authUser.getId());
 		
 		return "redirect:/board";
