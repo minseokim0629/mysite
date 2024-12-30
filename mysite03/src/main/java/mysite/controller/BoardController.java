@@ -44,6 +44,7 @@ public class BoardController {
 		return "board/view";
 	}
 	
+	@Auth
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.GET)
 	public String write(@AuthUser UserVo authUser,
 						@PathVariable("type") String type,
@@ -70,7 +71,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	
+	@Auth
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
 	public String modify(@AuthUser UserVo authUser,
 						 @PathVariable("id") Long id, Model model) {
@@ -81,6 +82,7 @@ public class BoardController {
 		return "board/modify";
 	}
 	
+	@Auth
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
 	public String modify(@AuthUser UserVo authUser, BoardVo boardVo) {
 		boardService.updateContents(boardVo);
@@ -88,6 +90,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
+	@Auth
 	@RequestMapping("/delete/{id}")
 	public String delete(@AuthUser UserVo authUser, 
 						 @PathVariable("id") Long id) {
