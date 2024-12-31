@@ -1,22 +1,37 @@
 package mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
+	@Autowired
+	private DataSource dataSource;
+	
+	private SqlSession sqlSession;
+	
+	
+	public UserRepository(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+	
 	public int insert(UserVo vo) {
-		int count = 0;
+		return sqlSession.insert("user.insert", vo);
+		/*int count = 0;
 
 		try (
-			Connection conn = getConnection();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("insert into user values(null, ?, ?, ?, ?, now(), 'USER')");
 		) {
 			pstmt.setString(1, vo.getName());
@@ -28,14 +43,15 @@ public class UserRepository {
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
-		return count;
+		return count;*/
 	}
 
 	public int update(UserVo vo) {
-		int count = 0;
+		return sqlSession.update("user.update", vo);
+		/*int count = 0;
 
 		try (
-			Connection conn = getConnection();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt1 = conn.prepareStatement("update user set name=?, gender=? where id=?");
 			PreparedStatement pstmt2 = conn.prepareStatement("update user set name=?, password=?, gender=? where id=?");
 		) {
@@ -57,14 +73,14 @@ public class UserRepository {
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
-		return count;
+		return count;*/
 	}
 	
 	public UserVo findByEmailAndPassword(String email, String password) {
-		UserVo userVo = null;
+		return sqlSession.selectOne("user.findByEmailAndPassword", Map.of("email", email, "password", password));
 		
-		try (
-			Connection conn = getConnection();
+		/*try (
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select id, name, role from user where email=? and password=?");
 		) {
 			pstmt.setString(1, email);
@@ -86,15 +102,16 @@ public class UserRepository {
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
-		return userVo;
+		return userVo;*/
 	}
 	
-	public UserVo findById(Long id) {
-		UserVo userVo = null;
+	public UserVo findById(Long userId) {
+		return sqlSession.selectOne("user.findById", userId);
+		/*UserVo userVo = null;
 		
 		try (
-			Connection conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("select name, email, gender from user where id=?");
+			Connection conn = dataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("select id, name, email, gender from user where id=?");
 		) {
 			pstmt.setLong(1, id);
 
@@ -115,22 +132,6 @@ public class UserRepository {
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
-		return userVo;
-	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			// 1. JDBC Driver 로딩
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			// 2. 연결하기
-			String url = "jdbc:mariadb://192.168.0.101:3306/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		}
-
-		return conn;
+		return userVo;*/
 	}
 }
