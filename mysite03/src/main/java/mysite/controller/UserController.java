@@ -42,39 +42,9 @@ public class UserController {
 		return "user/login";
 	}
 	
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public String login(HttpSession session, UserVo userVo, Model model) {
-//		UserVo authUser = userService.getUser(userVo.getEmail(), userVo.getPassword());
-//		// 로그인 실패
-//		if(authUser == null) {
-//			model.addAttribute("email", userVo.getEmail());
-//			model.addAttribute("result", "fail");
-//			return "user/login";
-//		}
-//		
-//		// login 처리
-//		session.setAttribute("authUser", authUser);
-//		return "redirect:/";
-//	}
-	
-//	@RequestMapping("/logout")
-//	public String logout(HttpSession session) {
-//		session.removeAttribute("authUser");
-//		session.invalidate();
-//		
-//		return "redirect:/";
-//	}
-	
 	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {
-		// Access Control	
-//		if(authUser == null) {
-//			return "redirect:/";
-//		}		
-		
-//		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		
 		UserVo userVo = userService.getUser(authUser.getId());
 		
 		model.addAttribute("vo", userVo);
@@ -84,13 +54,6 @@ public class UserController {
 	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(@AuthUser UserVo authUser, UserVo userVo) {
-		// Access Control		
-//		if(authUser == null) {
-//			return "redirect:/";
-//		}
-//		
-//		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		
 		userVo.setId(authUser.getId());
 		userService.update(userVo);
 
