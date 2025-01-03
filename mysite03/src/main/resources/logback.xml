@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/mysite-log/exception.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>/mysite-log/exception.%i.log.zip</FileNamePattern>
+			<MinIndex>1</MinIndex> <!-- 10개의 archiving을 유지하겠다. 11이 되면 1로 덮어쓰는 방식 -->
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50KB</MaxFileSize> <!-- archiving 하는 기준. 50kb가 넘으면 zip파일로 만들겠다. -->
+		</triggeringPolicy>
+	</appender>
+	
+	<!--
+		mysite.exception 아래 패키지 로그들만  /mysite-log/exception.log 파일에만  출력하는 로거
+	-->
+	<logger name="mysite.exception" level="error" additivity="false">
+            <appender-ref ref="fileAppender" />
+            <appender-ref ref="consoleAppender" />
+    </logger>
+
+	<!-- 루트(글로벌) 로거 -->
+	<root level="debug">
+		<appender-ref ref="consoleAppender" /> <!-- 콘솔로만 출력 -->
+	</root>
+
+</configuration>
