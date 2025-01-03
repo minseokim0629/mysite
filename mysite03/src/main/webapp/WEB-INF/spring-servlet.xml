@@ -56,7 +56,7 @@
 	</bean>
 
 	<context:annotation-config />
-	<context:component-scan base-package="mysite.controller" />
+	<context:component-scan base-package="mysite.controller, mysite.exception" />
 
 </beans>
                                                                                                                                                                                                         
