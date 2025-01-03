@@ -53,7 +53,7 @@
 					<ul>
 						<c:choose>
 							<c:when test="${result.beginPage > 1}">
-								<li><a href="${pageContext.request.contextPath }/board?currentPage=${result.beginPage - 1}&kwd=${result.kwd}">◀</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?currentPage=${result.beginPage - 1}&kwd=${result.keyword}">◀</a></li>
 							</c:when>
 							<c:otherwise>
 								<li>◀</li>
@@ -65,7 +65,7 @@
 									<li class="selected">${i}</li>
 								</c:when>
 								<c:when test="${i >= result.beginPage && i <= result.totalPageCnt }" >
-									<li><a href="${pageContext.request.contextPath }/board?currentPage=${i }&kwd=${result.kwd}">${i }</a></li>
+									<li><a href="${pageContext.request.contextPath }/board?currentPage=${i }&kwd=${result.keyword}">${i }</a></li>
 								</c:when>
 								<c:otherwise>
 									<li>${i }</li>
@@ -74,7 +74,7 @@
 						</c:forEach>
 						<c:choose>
 							<c:when test="${result.endPage < result.totalPageCnt}">
-								<li><a href="${pageContext.request.contextPath }/board?currentPage=${result.endPage + 1}&kwd=${result.kwd}">▶</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?currentPage=${result.endPage + 1}&kwd=${result.keyword}">▶</a></li>
 							</c:when>
 							<c:otherwise>
 								<li>▶</li>
