@@ -11,6 +11,19 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<mvc:annotation-driven/>
 	
+	<!-- DefaultServlet Handler -->
+	<mvc:default-servlet-handler/>
+	
+	<!-- Message Source -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	    <property name="basenames">
+	       <list>
+	          <value>messages/message</value>
+	       </list>
+	    </property>
+	</bean>
+
+	
 	<!-- mvc url-resource mapping -->
 	<mvc:resources mapping="/assets/upload-images/**" location="file:/mysite-uploads/" />
 	
@@ -49,6 +62,11 @@
 			<mvc:exclude-mapping path="/user/logout"/>
 			<mvc:exclude-mapping path="/assets/**"/>
 			<bean class="mysite.security.AuthInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="mysite.interceptor.SiteInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
