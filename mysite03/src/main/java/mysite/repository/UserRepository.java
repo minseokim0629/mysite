@@ -26,18 +26,6 @@ public class UserRepository {
 	}
 	
 	public UserVo findByEmailAndPassword(String email, String password) {
-//		StopWatch sw = new StopWatch();
-//		sw.start();
-//		
-//		UserVo userVo = sqlSession.selectOne("user.findByEmailAndPassword", Map.of("email", email, "password", password));
-//		
-//		sw.stop();
-//		
-//		long totalTime = sw.getTotalTimeMillis();
-//		System.out.println("[Excecution Time] [UserRepository.findByEmailAndPassword] " + totalTime + "millis");
-//		
-//		return userVo;
-		
 		return sqlSession.selectOne("user.findByEmailAndPassword", Map.of("email", email, "password", password));
 	}
 	
