@@ -9,10 +9,11 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.service.SiteService;
+import mysite.vo.SiteVo;
 
 public class SiteInterceptor implements HandlerInterceptor {
 	private LocaleResolver localeResolver;
-	private SiteService siteService;
+	private final SiteService siteService;
 	
 	public SiteInterceptor(LocaleResolver localeResolver, SiteService siteService) {
 		this.localeResolver = localeResolver;
@@ -22,22 +23,30 @@ public class SiteInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		ServletContext sc = request.getServletContext();
-		Enumeration<String> e = sc.getAttributeNames();
-		boolean exist = false;
+		SiteVo siteVo = (SiteVo)request.getServletContext().getAttribute("siteVo");
 		
-		while(e.hasMoreElements()) {
-			String name = e.nextElement();
-			if("title".equals(name)) {
-				exist = true;
-				request.setAttribute("title", sc.getAttribute("title"));
-				break;
-			}
+		if(siteVo == null) {
+			siteVo = siteService.getSite();
+			request.getServletContext().setAttribute("siteVo", siteVo);
 		}
 		
-		if(!exist) {
-			sc.setAttribute("siteVo", siteService.getSite());
-		}
+		
+//		ServletContext sc = request.getServletContext();
+//		Enumeration<String> e = sc.getAttributeNames();
+//		boolean exist = false;
+//		
+//		while(e.hasMoreElements()) {
+//			String name = e.nextElement();
+//			if("title".equals(name)) {
+//				exist = true;
+//				request.setAttribute("title", sc.getAttribute("title"));
+//				break;
+//			}
+//		}
+//		
+//		if(!exist) {
+//			sc.setAttribute("siteVo", siteService.getSite());
+//		}
 
 		// locale
 		String lang = localeResolver.resolveLocale(request).getLanguage();	
