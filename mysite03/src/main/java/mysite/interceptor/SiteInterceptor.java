@@ -29,24 +29,6 @@ public class SiteInterceptor implements HandlerInterceptor {
 			siteVo = siteService.getSite();
 			request.getServletContext().setAttribute("siteVo", siteVo);
 		}
-		
-		
-//		ServletContext sc = request.getServletContext();
-//		Enumeration<String> e = sc.getAttributeNames();
-//		boolean exist = false;
-//		
-//		while(e.hasMoreElements()) {
-//			String name = e.nextElement();
-//			if("title".equals(name)) {
-//				exist = true;
-//				request.setAttribute("title", sc.getAttribute("title"));
-//				break;
-//			}
-//		}
-//		
-//		if(!exist) {
-//			sc.setAttribute("siteVo", siteService.getSite());
-//		}
 
 		// locale
 		String lang = localeResolver.resolveLocale(request).getLanguage();	
