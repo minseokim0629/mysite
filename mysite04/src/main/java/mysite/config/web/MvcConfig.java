@@ -1,4 +1,4 @@
-package mysite.config;
+package mysite.config.web;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -13,7 +13,6 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -24,7 +23,6 @@ import org.springframework.web.servlet.view.JstlView;
 
 import mysite.event.ApplicationContextEventListener;
 import mysite.interceptor.SiteInterceptor;
-import mysite.service.SiteService;
 
 @Configuration
 @EnableWebMvc
@@ -39,7 +37,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		viewResolver.setSuffix(".jsp");
 		viewResolver.setExposeContextBeansAsAttributes(true);
 		viewResolver.setExposedContextBeanNames("site");
-		return null;
+		return viewResolver;
 	}
 	
 	// Message Converter

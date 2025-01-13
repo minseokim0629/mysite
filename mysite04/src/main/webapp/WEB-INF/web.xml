@@ -7,12 +7,12 @@
 	
 	<!-- Context Parameter -->
 	<context-param>
-     	<param-name> contextClass </param-name>
+     	<param-name>contextClass</param-name>
      	<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param> 
 	<context-param>
      	<param-name>contextConfigLocation</param-name>
-     	<param-value>mysite.config.app.Appconfig</param-value>
+     	<param-value>mysite.config.AppConfig</param-value>
 	</context-param>
 	
 	<!-- ContextLoad Listener -->
@@ -30,7 +30,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-     		<param-value>mysite.config.app.Appconfig</param-value>
+     		<param-value>mysite.config.WebConfig</param-value>
 		</init-param>
 		<multipart-config>
 			<max-file-size>10485760</max-file-size>
@@ -38,6 +38,10 @@
 	        <file-size-threshold>5242880</file-size-threshold>
 		</multipart-config>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 	
 	<!-- Common Errors -->
 	<error-page>
@@ -54,8 +58,4 @@
 		<error-code>500</error-code>
 		<location>/WEB-INF/views/errors/500.jsp</location>
 	</error-page>  
-	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
 </web-app>

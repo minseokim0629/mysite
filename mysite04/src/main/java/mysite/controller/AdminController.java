@@ -18,7 +18,7 @@ import mysite.vo.SiteVo;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	private FileUploadService fileUploadService;
+	private final FileUploadService fileUploadService;
 	private SiteService siteService;
 	private final ServletContext servletContext;
 	private final ApplicationContext applicationContext;

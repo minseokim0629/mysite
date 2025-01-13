@@ -14,6 +14,6 @@ import mysite.config.app.MyBatisConfig;
 @EnableTransactionManagement
 @Import({DBConfig.class, MyBatisConfig.class})
 @ComponentScan(basePackages= {"mysite.service", "mysite.repository", "mysite.aspect"})
-public class AppConfjg {
+public class AppConfig {
 
 }
