@@ -11,7 +11,7 @@
      	<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param> 
 	<context-param>
-     	<param-name> contextConfigLocation </param-name>
+     	<param-name>contextConfigLocation</param-name>
      	<param-value>mysite.config.app.Appconfig</param-value>
 	</context-param>
 	
@@ -24,6 +24,14 @@
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextClass</param-name>
+			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+     		<param-value>mysite.config.app.Appconfig</param-value>
+		</init-param>
 		<multipart-config>
 			<max-file-size>10485760</max-file-size>
 	        <max-request-size>104857600</max-request-size>

@@ -13,23 +13,6 @@
 	
 	<!-- Validator, ConversionService, MessageConverter를 자동으로 등록 -->
 	<mvc:annotation-driven>
-		<!-- Message Converter -->
-		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<property name="supportedMediaTypes">
-        			<list>
-             			<value>text/html; charset=UTF-8</value>
-        			</list>
-    			</property>
-			</bean>
-			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-			   <property name="supportedMediaTypes">
-			       <list>
-			            <value>application/json; charset=UTF-8</value>
-			        </list>
-			   </property>
-			</bean>
-		</mvc:message-converters>
 		<!-- Argument Resolvers -->
 		<mvc:argument-resolvers>
 			<bean class="mysite.security.AuthUserHandlerMethodArgumentResolver" />
@@ -59,9 +42,6 @@
 	
 	<!-- Multipart Resolver -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
-	
-	<!-- DefaultServlet Handler -->
-	<mvc:default-servlet-handler/>
 
 	<!-- Interceptors -->
 	<mvc:interceptors>
@@ -80,31 +60,7 @@
 			<mvc:exclude-mapping path="/assets/**"/>
 			<bean class="mysite.security.AuthInterceptor"/>
 		</mvc:interceptor>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<mvc:exclude-mapping path="/assets/**"/>
-			<bean class="mysite.interceptor.SiteInterceptor"/>
-		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	<!-- ViewResolver 설정 -->
-	<bean id="viewResolver" class= "org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/views/" />
-		<property name="suffix" value=".jsp" />
-		<property name="exposeContextBeansAsAttributes" value="true" />
-		<property name="exposedContextBeanNames">
-			<list>
-				<value>site</value>
-			</list>
-		</property>
-	</bean>
-	
-	<!--  ApplicationContextEventListener -->
-	<bean class="mysite.event.ApplicationContextEventListener" />
-	
-	<context:annotation-config />
-	<context:component-scan base-package="mysite.controller, mysite.exception" />
 
 </beans>
                                                                                                                                                                                                         
