@@ -1,6 +1,7 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -41,9 +42,12 @@
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<c:if test="${authUser.id == vo.userId }">
-								<td><a href="${pageContext.request.contextPath }/board/delete/${vo.id}" class="del">삭제</a></td>
-							</c:if>
+							<sec:authorize access="isAuthenticated()">
+		    					<sec:authentication property="principal" var="authUser"/>
+								<c:if test="${authUser.id == vo.userId }">
+									<td><a href="${pageContext.request.contextPath }/board/delete/${vo.id}" class="del">삭제</a></td>
+								</c:if>
+							</sec:authorize>
 						</tr>
 					</c:forEach>
 				</table>
@@ -85,9 +89,9 @@
 				<!-- pager 추가 -->
 				
 				<div class="bottom">
-					<c:if test="${not empty authUser }">
+					<sec:authorize access="isAuthenticated()">
 						<a href="${pageContext.request.contextPath }/board/write/origin" id="new-book">글쓰기</a>
-					</c:if>
+					</sec:authorize>
 				</div>				
 			</div>
 		</div>
