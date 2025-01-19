@@ -2,6 +2,7 @@ package mysite.controller;
 
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpSession;
-import mysite.security.Auth;
-import mysite.security.AuthUser;
 import mysite.service.BoardService;
 import mysite.vo.BoardVo;
 import mysite.vo.UserVo;
@@ -44,12 +42,12 @@ public class BoardController {
 		return "board/view";
 	}
 	
-	@Auth
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.GET)
-	public String write(@AuthUser UserVo authUser,
+	public String write(Authentication authentication,
 						@PathVariable("type") String type,
 						@RequestParam(value = "id", required = false) Long id, Model model) {
 		if("reply".equals(type)) {
+			UserVo authUser = (UserVo)authentication.getPrincipal();
 			BoardVo boardVo = boardService.getContents(id, authUser.getId());
 		
 			model.addAttribute("vo", boardVo);
@@ -58,10 +56,10 @@ public class BoardController {
 		return "board/write";
 	}
 	
-	@Auth
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.POST)
-	public String write(@AuthUser UserVo authUser, 
+	public String write(Authentication authentication, 
 						@PathVariable("type") String type, BoardVo boardVo) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		
 		boardVo.setUserId(authUser.getId());
 		boardVo.setType(type);
@@ -71,10 +69,11 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	@Auth
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
-	public String modify(@AuthUser UserVo authUser,
+	public String modify(Authentication authentication,
 						 @PathVariable("id") Long id, Model model) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
+		
 		BoardVo boardVo = boardService.getContents(id, authUser.getId());
 		
 		model.addAttribute("vo", boardVo);
@@ -82,18 +81,18 @@ public class BoardController {
 		return "board/modify";
 	}
 	
-	@Auth
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
-	public String modify(@AuthUser UserVo authUser, BoardVo boardVo) {
+	public String modify(Authentication authentication, BoardVo boardVo) {
 		boardService.updateContents(boardVo);
 		
 		return "redirect:/board";
 	}
 	
-	@Auth
 	@RequestMapping("/delete/{id}")
-	public String delete(@AuthUser UserVo authUser, 
+	public String delete(Authentication authentication, 
 						 @PathVariable("id") Long id) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
+		
 		boardService.deleteContents(id, authUser.getId());
 		
 		return "redirect:/board";

@@ -37,12 +37,13 @@
 		]]>
 	</select>
 	
-	<select id = "findByEmail" parameterType="String" resultType="uservo">
+	<select id = "findByEmail" parameterType="String" resultType="map">
 		<![CDATA[
 			select id, 
 			       name,
 			       email, 
-			       gender 
+			       password,
+			       role
 			  from user 
 			 where email=#{email}
 		]]>
