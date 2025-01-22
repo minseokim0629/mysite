@@ -79,7 +79,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     				
     				.anyRequest()
     				.permitAll();
-    		})
+    		});
+    		/*
     		.exceptionHandling(exceptionHandling -> {
     			//exceptionHandling.accessDeniedPage("/WEB-INF/views/errors/403.jsp");
     			exceptionHandling.accessDeniedHandler(new AccessDeniedHandler() {
@@ -91,7 +92,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 					}
     				
     			});
-    		});
+    		});*/
         return http.build();
     }
 
