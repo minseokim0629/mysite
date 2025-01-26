@@ -1,25 +1,26 @@
 package mysite.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpServletRequest;
-import mysite.vo.SiteVo;
+import jakarta.servlet.ServletContext;
 import mysite.vo.UserVo;
 
 @Controller
 public class MainController {
-	@Autowired
-	ApplicationContext applicationContext;
+	private final ServletContext servletContext;
+	
+	public MainController(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
 	
 	@RequestMapping({"/", "/main"})
-	public String index(HttpServletRequest request) {
-		SiteVo vo = applicationContext.getBean(SiteVo.class);
-		System.out.println(vo);
-		return "main/index";
+	public String index(Model model) {
+		model.addAttribute("servletContext", servletContext);
+		return "th/main/index";
 	}
 	
 	@ResponseBody

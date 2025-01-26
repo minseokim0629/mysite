@@ -9,6 +9,15 @@ spring:
       livereload:
          enabled: true
    
+   thymeleaf:
+      check-template-location: true
+      mode: html
+      prefix: classpath:templates/
+      suffix: .html
+      encoding: UTF-8
+      view-names: th/*
+      cache: false
+
    # whether bean definition overriding
    main:
       allow-bean-definition-overriding: true
@@ -43,7 +52,7 @@ spring:
 
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mariadb://192.168.0.101:3306/webdb
+      url: jdbc:mariadb://192.168.0.103:3306/webdb
       username: webdb
       password: webdb
       hikari: 

@@ -1,0 +1,14 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="ko">
+<head>
+</head>
+<body>	
+	<div id="navigation">
+		<ul>
+			<li><a th:href="@{/}">[[#{navigation.li.main}]]</a></li>
+			<li><a th:href="@{/guestbook}">[[#{navigation.li.guestbook}]]</a></li>
+			<li><a th:href="@{/board}">[[#{navigation.li.board}]]</a></li>
+			<li><a th:href="@{/gallery}">[[#{navigation.li.gallery}]]</a></li>
+		</ul>
+	</div>
+</body>
