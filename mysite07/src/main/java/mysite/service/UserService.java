@@ -31,12 +31,15 @@ public class UserService {
 
 	public UserVo getUser(String email) {
 		UserVo userVo = userRepository.findByEmail(email, UserVo.class);
+		if(userVo == null) {
+			return null;
+		}
 		userVo.setPassword("");
-		
 		return userVo;
 	}
 	
 	public void update(UserVo userVo) {
+		userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
 		userRepository.update(userVo);
 	}
 }

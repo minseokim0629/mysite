@@ -36,6 +36,6 @@ public class UserRepository {
 	
 	public <R> R findByEmail(String email, Class<R> resultType) {
 		Map<String, Object> map = sqlSession.selectOne("user.findByEmail", email);
-		return new ObjectMapper().convertValue(map, resultType);
+		return map != null ? new ObjectMapper().convertValue(map, resultType) : null;
 	}
 }
