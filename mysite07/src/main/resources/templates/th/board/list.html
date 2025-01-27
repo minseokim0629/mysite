@@ -1,0 +1,82 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="ko">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link th:href="@{/assets/css/board.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div id="container">
+		<th:block th:include="th/includes/header"></th:block>
+		<div id="content">
+			<div id="board">
+				<form id="search_form" th:action="@{/board}" method="post">
+					<input type="text" id="kwd" name="kwd" value="">
+					<input type="submit" value="찾기">
+				</form>
+				<table class="tbl-ex">
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>글쓴이</th>
+						<th>조회수</th>
+						<th>작성일</th>
+						<th>&nbsp;</th>
+					</tr>				
+						<tr th:each="vo, status : ${result.list}" th:with="count=${#lists.size(result.list) }">
+							<td th:text="${count - status.index }"></td>
+							<td th:style="|text-align:left; padding-left:${vo.depth * 20}px|">
+								<th:block th:if ="${vo.depth > 0}">
+									<img th:src="@{/assets/images/reply.png}">
+								</th:block>
+								<a th:href="@{/board/view/{id}(id=${vo.id})}">[[${vo.title }]]</a>
+							</td>
+							<td th:text="${vo.userName }"></td>
+							<td th:text="${vo.hit }"></td>
+							<td th:text="${vo.regDate }"></td>
+							<th:block sec:authorize="isAuthenticated()">
+								<th:block th:if="${#authentication.principal.id == vo.userId }">
+									<td><a th:href="@{/board/delete/{id}(id=${vo.id})}" class="del" th:style="|background-image:url(@{/assets/images/recycle.png})|">삭제</a></td>
+								</th:block>
+							</th:block>
+						</tr>
+				</table>
+				<!-- pager 추가 -->	
+				<div class="pager">
+					<ul>
+						<th:block th:if="${result.beginPage > 1}">
+							<li><a th:href="@{|/board?currentPage=${result.beginPage - 1}&kwd=${result.keyword}|}">◀</a></li>
+						</th:block>
+						<th:block th:unless="${result.beginPage > 1}">
+							<li>◀</li>
+						</th:block>
+						<th:block th:each="i : ${#numbers.sequence(result.beginPage, result.endPage)}">
+							<th:block th:if="${i == result.currentPage }">
+								<li class="selected" th:text="${i}"></li>
+							</th:block>
+							<th:block th:if="${i != result.currentPage && i >= result.beginPage && i <= result.totalPageCnt}">
+								<li><a th:href="@{|/board?currentPage=${i }&kwd=${result.keyword}|}">[[${i }]]</a></li>
+							</th:block>
+							<th:block th:unless="${i >= result.beginPage && i <= result.totalPageCnt}">
+								<li>[[${i }]]</li>
+							</th:block>
+						</th:block>
+						<th:block th:if="${result.endPage < result.totalPageCnt}">
+								<li><a th:href="@{|/board?currentPage=${result.endPage + 1}&kwd=${result.keyword}|}">▶</a></li>
+							</th:block>
+						<th:block th:unless="${result.endPage < result.totalPageCnt}">
+							<li>▶</li>
+						</th:block>
+					</ul> 
+				</div>					
+				<div class="bottom">
+					<th:block sec:authorize="isAuthenticated()">
+						<a th:href="@{/board/write/origin}" id="new-book">글쓰기</a>
+					</th:block>
+				</div>				
+			</div>
+		</div>
+		<th:block th:include="th/includes/navigation"></th:block>
+		<th:block th:include="th/includes/footer"></th:block>
+	</div>
+</body>
+</html>

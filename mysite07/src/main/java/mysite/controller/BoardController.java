@@ -31,7 +31,7 @@ public class BoardController {
 		
 		model.addAttribute("result", resultMap);
 		
-		return "board/list";
+		return "th/board/list";
 	}
 	
 	@RequestMapping("/view/{id}")
@@ -39,7 +39,7 @@ public class BoardController {
 		BoardVo boardVo = boardService.getContents(id);
 		model.addAttribute("vo", boardVo);
 		
-		return "board/view";
+		return "th/board/view";
 	}
 	
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.GET)
@@ -53,7 +53,7 @@ public class BoardController {
 			model.addAttribute("vo", boardVo);
 		}
 		
-		return "board/write";
+		return "th/board/write";
 	}
 	
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.POST)
@@ -75,10 +75,10 @@ public class BoardController {
 		UserVo authUser = (UserVo)authentication.getPrincipal();
 		
 		BoardVo boardVo = boardService.getContents(id, authUser.getId());
-		
+		System.out.println(boardVo);
 		model.addAttribute("vo", boardVo);
 		
-		return "board/modify";
+		return "th/board/modify";
 	}
 	
 	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)

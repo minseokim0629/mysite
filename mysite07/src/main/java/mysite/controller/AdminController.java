@@ -30,7 +30,8 @@ public class AdminController {
 	
 	@RequestMapping({"", "/main"})
 	public String main(Model model) {
-		return "admin/main";
+		model.addAttribute("servletContext", servletContext);
+		return "th/admin/main";
 	}
 	
 	@RequestMapping("/update")
@@ -54,16 +55,16 @@ public class AdminController {
 	}
 	@RequestMapping("/guestbook")
 	public String guestbook() {
-		return "admin/guestbook";
+		return "th/admin/guestbook";
 	}
 	
 	@RequestMapping("/board")
 	public String board() {
-		return "admin/board";
+		return "th/admin/board";
 	}
 
 	@RequestMapping("/user")
 	public String user() {
-		return "admin/user";
+		return "th/admin/user";
 	}
 }

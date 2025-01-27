@@ -25,7 +25,7 @@ public class GuestbookController {
 	public String index(Model model) {
 		List<GuestbookVo> list = guestbookService.getContentsList();
 		model.addAttribute("list", list);
-		return "/guestbook/list";
+		return "th/guestbook/list";
 	}
 	
 	@RequestMapping("/add")
@@ -37,7 +37,7 @@ public class GuestbookController {
 	
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String delete(@PathVariable("id") Long id) {
-		return "/guestbook/delete";
+		return "th/guestbook/delete";
 	}
 	
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
